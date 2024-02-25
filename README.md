@@ -1,5 +1,5 @@
 **README**
-Currently a WIP!                                                                                    
+SteGojo is an encryption software that allows you to store your secrets within Gojo, your favorite idol. But be warned, some sneaky features may expose an inevitable fate of his d-.                                                               
                                                                                                     
                                                                                                                                                                             
                                                                                                     
