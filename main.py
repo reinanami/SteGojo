@@ -94,8 +94,16 @@ def decrypter(message_length):
             break
     
     print("| Writing message...")
-    
-    message = ''.join([chr(int(decrypted_message_bin[c :c+8], 2)) for c in range(0, len(decrypted_message_bin), 8)]) #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
+
+    convert_to_ASCII = [] #using lists to convert the binary into ascii
+
+    for c in range(0, len(decrypted_message_bin), 8):
+        convert_to_ASCII += chr(int(decrypted_message_bin[c :c+8], 2)) #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
+
+    message = ""
+
+    for char in convert_to_ASCII:
+        message += char
 
     print("| " + message)
 
