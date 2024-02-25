@@ -1,9 +1,9 @@
 # assigning all the global variables
-X = 490
-Y = 900
-XY = X * Y
+X = 490 # Width of the image
+Y = 900 # Height of the image
+XY = X * Y # Area of the image
 
-#Fetch aesthetics from txt files
+# Fetch console design aesthetics from the aesthetics folder
 title_file = open("aesthetics/title.txt")
 title = title_file.read()
 encrypter_aesthetics_file = open("aesthetics/encrypter_aesthetics.txt")
@@ -17,6 +17,7 @@ line = line_file.read()
 bar_file = open("aesthetics/bars.txt")
 bar = bar_file.read()
 
+# Opening the bmp image files
 with open("gojo.bmp", "rb") as gojo_bmp_file:
     gojo_bmp = gojo_bmp_file.read()
 
@@ -32,43 +33,39 @@ def encrypter():
     print(bar)
     print("| Encrypting...")
     
-    message_length = len(message)
+    message_length = len(message) #First we remember the length of our message for later
 
-    metadata = gojo_bmp[:54]
-    data = gojo_bmp[54:]
+    metadata = gojo_bmp[:54] #We want to save the metadata so that it saves the bmp file properly
+    data = gojo_bmp[54:] #We want to split it so that data can be encrypted without complications
 
-    message_in_binary = ''.join(format(ord(w), '08b') for w in message)
+    message_in_binary = ''.join(format(ord(l), '08b') for l in message) #We turn the letters 'l' within the message into 08b format as 1 letter = 8 bits = 1 byte
 
-    byte_array_data = bytearray(data)
+    byte_array_data = bytearray(data) #We use bytearray so it formats into data[X][Y][ColorPixel]
 
-    index = 0
+    index = 0 #initialize index
 
-    for bit in message_in_binary:
-        green_index = index * 3 + 1 # skip to green
+    for bit in message_in_binary: #For every bit inside the message
+        green_index = index * 3 + 1 # We skip to green. 3 serves as an offset
 
-        if bit == '1':
-            byte_array_data[green_index] |= 1
-        else:
-            byte_array_data[green_index] &= ~1
-        index += 1
-        print("| " + str(index) + " bits out of " + str(message_length * 8) + " done...")
+        if bit == '1': #If it matches as one
+            byte_array_data[green_index] |= 1 #Bitwise OR 1
+        else: #Otherwise
+            byte_array_data[green_index] &= ~1 #Bitwise AND not 1 (0)
+        index += 1 #We increment 
+        print("| " + str(index) + " bits out of " + str(message_length * 8) + " done...") #Bit counter for fun
 
         if index * 3 >= len(byte_array_data):
-            print("| Finished encrypting data...")
+            print("| Finished encrypting data...") #Make sure that it doesn't overflow
             break
 
     print("| Writing data to encrypted gojo image...")
 
     with open("encryptedgojo.bmp", "wb") as gojo_encrypted_bmp:
-        gojo_encrypted_bmp = gojo_encrypted_bmp.write(metadata + byte_array_data)
+        gojo_encrypted_bmp = gojo_encrypted_bmp.write(metadata + byte_array_data) #We write the encrypted bmp onto encrypted gojo bmp
     
     print("| Done!")
 
-    return message_length
-    
-    
-        
-        
+    return message_length #Return the message length so that it remembers how to decrypt the message properly 
     
 
 def decrypter(message_length):
@@ -76,8 +73,8 @@ def decrypter(message_length):
     print(decrypter_aesthetics)
     print("| Decrypting...")
 
-    data = gojo_encrypted_bmp[54:]
-    decrypted_message_bin = ''
+    data = gojo_encrypted_bmp[54:] #Split the data from the metadata
+    decrypted_message_bin = '' #iitialize the binary string
 
     byte_array_data = bytearray(data)
 
@@ -98,18 +95,10 @@ def decrypter(message_length):
     
     print("| Writing message...")
     
-    message = ''.join([chr(int(decrypted_message_bin[i:i+8], 2)) for i in range(0, len(decrypted_message_bin), 8)])
+    message = ''.join([chr(int(decrypted_message_bin[c :c+8], 2)) for c in range(0, len(decrypted_message_bin), 8)]) #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
 
     print("| " + message)
 
-
-
-    
-
-
-def help_page():
-    print(line)
-    print(bar)
 #main
 print(title)
 while True:
@@ -121,19 +110,17 @@ while True:
         message_length = str(message_length_num)
         print(line)
         with open("message_length.txt", "w") as message_length_file:
-            message_length_update = message_length_file.write(message_length)
+            message_length_update = message_length_file.write(message_length) #We want to secure the message length
         break
     if action_response == "D":
         with open("message_length.txt", "r") as message_length_file:
-            message_length_input = message_length_file.read()
+            message_length_input = message_length_file.read() #We want to read the message length so that we decrypt the right size
         message_length_input_int = int(message_length_input)
         decrypter(message_length_input_int)
         print(line)
         break
-    if action_response == "H":
-        help_page()
     if action_response == "README":
-        readme_file = open("readme.txt")
+        readme_file = open("readme.txt") #Readme to document commands and important information
         readme = readme_file.read()
         print(readme)
     if action_response == "You are my special.":
@@ -141,6 +128,5 @@ while True:
         secret = secret_file.read()
         print(secret)
     else:
-        print("| Unknown command detected. Please try again!                                 |")
-        print("| Type 'H' for help                                                           |")
+        print("| Unknown command detected. Please try again!                                 |") #This code constitutes an error due to an unknown command
         print(line)
