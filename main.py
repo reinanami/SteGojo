@@ -55,6 +55,7 @@ def encrypter():
         else:
             byte_array_data[green_index] &= ~1
         index += 1
+        print("| " + str(index) + " bits out of " + str(message_length * 8) + " done...")
 
         if index * 3 >= len(byte_array_data):
             print("| Finished encrypting data...")
