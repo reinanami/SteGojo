@@ -28,84 +28,94 @@ with open("encryptedgojo.bmp", "rb") as gojo_encrypted_bmp:
 def encrypter():
     #Cool aesthetics below
     print(encrypter_aesthetics)
-    message = input("| message: ")
-    print(bar)
-    print(bar)
-    print("| Encrypting...")
-    
-    message_length = len(message) #First we remember the length of our message for later
+    num_of_messages = int(input("How many messages would you like to encrypt?: "))
+    message_list = []
+    message_length_list  = []
 
+    with open("num_of_messages.txt", "w") as num_of_messages_tracker:
+        num_of_messages_tracker.write(str(num_of_messages))
+    
     metadata = gojo_bmp[:54] #We want to save the metadata so that it saves the bmp file properly
     data = gojo_bmp[54:] #We want to split it so that data can be encrypted without complications
-
-    message_in_binary = ''.join(format(ord(l), '08b') for l in message) #We turn the letters 'l' within the message into 08b format as 1 letter = 8 bits = 1 byte
-
     byte_array_data = bytearray(data) #We use bytearray so it formats into data[X][Y][ColorPixel]
 
-    index = 0 #initialize index
+    for num in range(num_of_messages):
+        message = input("| enter message " + str(num + 1) + " :")
+        message_list.append(message)
+        num += 1
 
-    for bit in message_in_binary: #For every bit inside the message
-        green_index = index * 3 + 1 # We skip to green. 3 serves as an offset
+    index = 0
 
-        if bit == '1': #If it matches as one
-            byte_array_data[green_index] |= 1 #Bitwise OR 1
-        else: #Otherwise
-            byte_array_data[green_index] &= ~1 #Bitwise AND not 1 (0)
-        index += 1 #We increment 
-        print("| " + str(index) + " bits out of " + str(message_length * 8) + " done...") #Bit counter for fun
+    for message in message_list: 
+        
+        message_length = len(message) #First we remember the length of our message for later
 
-        if index * 3 >= len(byte_array_data):
-            print("| Finished encrypting data...") #Make sure that it doesn't overflow
-            break
+        message_in_binary = ''.join(format(ord(l), '08b') for l in message) #We turn the letters 'l' within the message into 08b format as 1 letter = 8 bits = 1 byte
 
-    print("| Writing data to encrypted gojo image...")
 
-    with open("encryptedgojo.bmp", "wb") as gojo_encrypted_bmp:
-        gojo_encrypted_bmp = gojo_encrypted_bmp.write(metadata + byte_array_data) #We write the encrypted bmp onto encrypted gojo bmp
-    
+        for bit in message_in_binary: #For every bit inside the message
+            green_index = index * 3 + 1 # We skip to green. 3 serves as an offset
+
+            if bit == '1': #If it matches as one
+                byte_array_data[green_index] |= 1 #Bitwise OR 1
+            else: #Otherwise
+                byte_array_data[green_index] &= ~1 #Bitwise AND not 1 (0)
+            
+            index += 1 #We increment 
+            
+            print("| " + str(index) + " bits out of " + str(message_length * 8) + " done...") #Bit counter for fun
+
+            if index * 3 >= len(byte_array_data):
+                print("| Finished encrypting data...") #Make sure that it doesn't overflow
+                break
+            
+        message_length_list.append(message_length)
+
+        print("| Writing data to encrypted gojo image...")
+
+        with open("encryptedgojo.bmp", "wb") as gojo_encrypted_bmp:
+            gojo_encrypted_bmp = gojo_encrypted_bmp.write(metadata + byte_array_data) #We write the encrypted bmp onto encrypted gojo bmp
+
     print("| Done!")
 
-    return message_length #Return the message length so that it remembers how to decrypt the message properly 
+    return message_length_list #Return the message length so that it remembers how to decrypt the message properly 
     
 
-def decrypter(message_length):
+def decrypter(message_length_input_list, num_of_messages):
+    print("| You have " + str(num_of_messages) + " messages to decrypt.")
+    amt_decrypt = int(input("How many messages would you like to decrypt?: "))
+    if amt_decrypt > int(num_of_messages):
+        print("|ERROR! Please enter a number less than " + str(num_of_messages))
+        return 
+
     #Cool aesthetics below
     print(decrypter_aesthetics)
-    print("| Decrypting...")
 
     data = gojo_encrypted_bmp[54:] #Split the data from the metadata
-    decrypted_message_bin = '' #iitialize the binary string
-
     byte_array_data = bytearray(data)
+    index = 0 #initialize index
 
     print("| Looksmaxxing...")
 
-    index = 0
-    for bit in byte_array_data:
-        green_index = index * 3 + 1 # skip to green
+    for amt in range(amt_decrypt):
+        print("| Decrypting " + str(amt + 1) + "...")
+        message_length = message_length_input_list[amt]
+        decrypted_message_bin = ''
 
-        bit = byte_array_data[green_index] &1
-        decrypted_message_bin += str(bit)
-
-        index += 1
-
-        if index * 3 >= 24 * message_length: # 3 * 1 byte = 3 * 8 bits, making it 24
-            print("| Finished decrypting data...")
-            break
+        for _ in range(message_length * 8):
+            green_index = index * 3 + 1 # skip to green
+            bit = byte_array_data[green_index] &1
+            decrypted_message_bin += str(bit)
+            index += 1
     
-    print("| Writing message...")
+        print("| Writing message...")
 
-    convert_to_ASCII = [] #using lists to convert the binary into ascii
+        message = ""
+        for c in range(0, len(decrypted_message_bin), 8):
+            byte = decrypted_message_bin[c :c+8] #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
+            message += chr(int(byte, 2))
 
-    for c in range(0, len(decrypted_message_bin), 8):
-        convert_to_ASCII += chr(int(decrypted_message_bin[c :c+8], 2)) #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
-
-    message = ""
-
-    for char in convert_to_ASCII:
-        message += char
-
-    print("| " + message)
+        print("| " + message)
 
 #main
 print(title)
@@ -115,16 +125,18 @@ while True:
     print(line)
     if action_response == "E":
         message_length_num = encrypter()
-        message_length = str(message_length_num)
         print(line)
         with open("message_length.txt", "w") as message_length_file:
-            message_length_update = message_length_file.write(message_length) #We want to secure the message length
+            message_length_str = ','.join(map(str, message_length_num))
+            message_length_file.write(message_length_str) #We want to secure the message length
         break
     if action_response == "D":
         with open("message_length.txt", "r") as message_length_file:
-            message_length_input = message_length_file.read() #We want to read the message length so that we decrypt the right size
-        message_length_input_int = int(message_length_input)
-        decrypter(message_length_input_int)
+            message_length_input_str = message_length_file.read() #We want to read the message length so that we decrypt the right size
+            message_length_input_list = [int(i) for i in message_length_input_str.split(',')]
+        with open("num_of_messages.txt", "r") as num_of_messages_tracker:
+            num_of_messages = num_of_messages_tracker.read()
+        decrypter(message_length_input_list, num_of_messages)
         print(line)
         break
     if action_response == "README":
