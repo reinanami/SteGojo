@@ -1,10 +1,4 @@
-import numpy as np
-
 # assigning all the global variables
-MAX = 0xFFFFFF
-MIN = 0x000000
-
-#Gojo image processor
 X = 490
 Y = 900
 XY = X * Y
@@ -20,6 +14,8 @@ main_aesthetics_file = open("aesthetics/main_aesthetics.txt")
 main_aesthetics = main_aesthetics_file.read()
 line_file = open("aesthetics/line.txt")
 line = line_file.read()
+bar_file = open("aesthetics/bars.txt")
+bar = bar_file.read()
 
 with open("gojo.bmp", "rb") as gojo_bmp_file:
     gojo_bmp = gojo_bmp_file.read()
@@ -32,9 +28,9 @@ def encrypter():
     #Cool aesthetics below
     print(encrypter_aesthetics)
     message = input("| message: ")
-    print("|                                                                             |")
-    print("|                                                                             |")
-    print("| Encrypting...                                                               |")
+    print(bar)
+    print(bar)
+    print("| Encrypting...")
     
     message_length = len(message)
 
@@ -78,7 +74,7 @@ def encrypter():
 def decrypter(message_length):
     #Cool aesthetics below
     print(decrypter_aesthetics)
-    print("| Decrypting...                                                               |")
+    print("| Decrypting...")
 
     data = gojo_encrypted_bmp[54:]
     decrypted_message_bin = ''
@@ -104,7 +100,7 @@ def decrypter(message_length):
     
     message = ''.join([chr(int(decrypted_message_bin[i:i+8], 2)) for i in range(0, len(decrypted_message_bin), 8)])
 
-    print(message)
+    print("| " + message)
 
 
 
@@ -113,8 +109,7 @@ def decrypter(message_length):
 
 def help_page():
     print(line)
-    print("|                                                                             |")
-    
+    print(bar)
 #main
 print(title)
 while True:
