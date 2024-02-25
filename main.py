@@ -11,17 +11,23 @@ IMGHEIGH = 0x384
 X = 0x19
 Y = 0x19
 
+#Fetch aesthetics from txt files
+title_file = open("aesthetics/title.txt")
+title = title_file.read()
+encrypter_aesthetics_file = open("aesthetics/encrypter_aesthetics.txt")
+encrypter_aesthetics = encrypter_aesthetics_file.read()
+main_aesthetics_file = open("aesthetics/main_aesthetics.txt")
+main_aesthetics = main_aesthetics_file.read()
+line_file = open("aesthetics/line.txt")
+line = line_file.read()
 
 def encrypter():
     #Cool aesthetics below
-    print("-----S-T-E-G-A-N-O-G-R-A-P-H-Y---E-N-C-R-Y-P-T-E-R-----")
-    print("|                                                     |")
-    print("|                                                     |")
-    print("| ----- Please type the message -----                 |")
+    print(encrypter_aesthetics)
     message = input("| message: ")
-    print("|                                                     |")
-    print("|                                                     |")
-    print("| Encrypting...                                       |")
+    print("|                                                                             |")
+    print("|                                                                             |")
+    print("| Encrypting...                                                               |")
     
     #Encrypt here
     
@@ -31,30 +37,28 @@ def decrypter():
     print("WIP")
 
 def help_page():
-    print("-----------------------Help Desk-----------------------")
-    print("|                                                     |")
+    print(line)
+    print("|                                                                             |")
     
 #main
+print(title)
 while True:
-    print(">>>>>>>>>>>>>>>>>>Welcome-to-SteGojo!<<<<<<<<<<<<<<<<<<")
-    print("|        TYPE 'H' FOR HELP, TYPE README FOR MORE      |")
-    print("| Loading...                                          |")
-    print("| Would you like to encrypt'E' or decrypt'D'?:        |")
+    print(main_aesthetics)
     action_response = input("| Your response: ")
+    print(line)
     if action_response == "E":
         encrypter()
-        print("-------------------------------------------------------")
+        print(line)
     if action_response == "D":
         decrypter()
-        print("-------------------------------------------------------")
+        print(line)
     if action_response == "H":
         help_page()
     if action_response == "README":
-        file = open("readme.txt")
-        documentation = file.read()
-        print(documentation)
+        readme_file = open("readme.txt")
+        readme = readme_file.read()
+        print(readme)
     else:
-        print("| An unknown error had occured. Please try again!     |")
-        print("| Type 'H' for help                                   |")
-        print("-------------------------------------------------------")    
-        break
+        print("| Unknown command detected. Please try again!                                 |")
+        print("| Type 'H' for help                                                           |")
+        print(line)

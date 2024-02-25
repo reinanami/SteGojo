@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+|        TYPE 'H' FOR HELP, TYPE README FOR MORE                              |
+| Loading...                                                                  |
+| Would you like to encrypt'E' or decrypt'D'?:                                |
