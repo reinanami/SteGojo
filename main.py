@@ -95,7 +95,7 @@ def decrypter(message_length):
 
         index += 1
 
-        if index * 3 >= X * message_length:
+        if index * 3 >= 24 * message_length: # 3 * 1 byte = 3 * 8 bits, making it 24
             print("| Finished decrypting data...")
             break
     
