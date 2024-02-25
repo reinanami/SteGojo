@@ -126,18 +126,24 @@ while True:
         print(line)
         with open("message_length.txt", "w") as message_length_file:
             message_length_update = message_length_file.write(message_length)
+        break
     if action_response == "D":
         with open("message_length.txt", "r") as message_length_file:
             message_length_input = message_length_file.read()
         message_length_input_int = int(message_length_input)
         decrypter(message_length_input_int)
         print(line)
+        break
     if action_response == "H":
         help_page()
     if action_response == "README":
         readme_file = open("readme.txt")
         readme = readme_file.read()
         print(readme)
+    if action_response == "You are my special.":
+        secret_file = open("aesthetics/secret.txt")
+        secret = secret_file.read()
+        print(secret)
     else:
         print("| Unknown command detected. Please try again!                                 |")
         print("| Type 'H' for help                                                           |")
