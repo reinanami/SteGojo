@@ -83,6 +83,8 @@ def decrypter(message_length_input_list, num_of_messages):
     if amt_decrypt > int(num_of_messages):
         print("|ERROR! Please enter a number less than " + str(num_of_messages)) #Error in case someone enters more than the maximum messages from the encryption
         return 
+    
+    decrypted_message_list = []
 
     #Cool aesthetics below
     print(decrypter_aesthetics)
@@ -109,7 +111,9 @@ def decrypter(message_length_input_list, num_of_messages):
             byte = decrypted_message_bin[c :c+8] #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
             message += chr(int(byte, 2))
 
-        return message
+        decrypted_message_list.append(message)
+
+    return decrypted_message_list
 
 #main
 print(title)
@@ -131,7 +135,7 @@ while True:
         with open("num_of_messages.txt", "r") as num_of_messages_tracker:
             num_of_messages = num_of_messages_tracker.read()
         decrypted_message = decrypter(message_length_input_list, num_of_messages)
-        print("| " + decrypted_message)
+        print("| The decrypted message(s): " + str(decrypted_message))
         print(line)
         break
     if action_response == "README":
