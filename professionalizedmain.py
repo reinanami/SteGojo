@@ -109,7 +109,7 @@ def decrypter(message_length_input_list, num_of_messages):
             byte = decrypted_message_bin[c :c+8] #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
             message += chr(int(byte, 2))
 
-        print("| " + message)
+        return message
 
 #main
 print(title)
@@ -130,7 +130,8 @@ while True:
             message_length_input_list = [int(i) for i in message_length_input_str.split(',')]
         with open("num_of_messages.txt", "r") as num_of_messages_tracker:
             num_of_messages = num_of_messages_tracker.read()
-        decrypter(message_length_input_list, num_of_messages)
+        decrypted_message = decrypter(message_length_input_list, num_of_messages)
+        print("| " + decrypted_message)
         print(line)
         break
     if action_response == "README":
