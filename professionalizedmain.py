@@ -77,7 +77,7 @@ def encrypter():
 
 def decrypter(message_length_input_list, num_of_messages):
     print("| You have " + str(num_of_messages) + " messages to decrypt.")
-    amt_decrypt = int(input("How many messages would you like to decrypt?: "))
+    amt_decrypt = int(input("| How many messages would you like to decrypt?: "))
     if amt_decrypt > int(num_of_messages):
         print("| ERROR! Please enter a number less than " + str(num_of_messages)) #Error in case someone enters more than the maximum messages from the encryption
         return 
