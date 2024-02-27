@@ -1,5 +1,7 @@
 **README**
-SteGojo is an encryption software that allows you to store your secrets within Gojo, your favorite idol. But be warned, some sneaky features may expose an inevitable fate of his d-.                                                               
+
+SteGojo is an encryption program that allows you to store your secrets within Gojo, your favorite idol. But be warned, some sneaky features may expose an inevitable fate of...
+On a real note, please do not look at secret.txt unless you are willing to spoil Jujutsu Kaisen for yourself big time.                                                               
                                                                                                     
                                                                                                                                                                             
                                                                                                     
