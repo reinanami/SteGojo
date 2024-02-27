@@ -58,8 +58,6 @@ def encrypter():
                 byte_array_data[green_index] &= ~1 #Bitwise AND not 1 (0)
             
             index += 1 # We increment the index here
-            
-            print("| " + str(index) + " bits out of " + str(message_length * 8) + " done...") #Bit counter for fun
 
             if index * 3 >= len(byte_array_data):
                 print("| Finished encrypting data...") #Ensure that there are no index errors
