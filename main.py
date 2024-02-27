@@ -28,7 +28,7 @@ with open("encryptedgojo.bmp", "rb") as gojo_encrypted_bmp:
 def encrypter():
     #Cool aesthetics below
     print(encrypter_aesthetics)
-    num_of_messages = int(input("How many messages would you like to encrypt?: "))
+    num_of_messages = int(input("| How many messages would you like to encrypt?: "))
     message_list = []
     message_length_list  = []
 
@@ -74,7 +74,7 @@ def encrypter():
         with open("encryptedgojo.bmp", "wb") as gojo_encrypted_bmp:
             gojo_encrypted_bmp = gojo_encrypted_bmp.write(metadata + byte_array_data) #We write the encrypted bmp onto encrypted gojo bmp
 
-    print("| Done!")
+    print("| Done encrypting!")
 
     return message_length_list #Return the message length so that it remembers how to decrypt the message properly 
     
