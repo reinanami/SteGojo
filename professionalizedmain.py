@@ -1,4 +1,4 @@
-# Fetch console design aesthetics from the aesthetics folder
+# Fetch console design aesthetics from the aesthetics folder. All the fonts were generated via https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20 
 title_file = open("aesthetics/title.txt")
 title = title_file.read()
 encrypter_aesthetics_file = open("aesthetics/encrypter_aesthetics.txt")
@@ -7,13 +7,13 @@ decrypter_aesthetics_file = open("aesthetics/decrypter_aesthetics.txt")
 decrypter_aesthetics = decrypter_aesthetics_file.read()
 main_aesthetics_file = open("aesthetics/main_aesthetics.txt")
 main_aesthetics = main_aesthetics_file.read()
-line_file = open("aesthetics/line.txt")
+line_file = open("aesthetics/line.txt") #The ascii art of Gojo is from MAPPA Studio's anime 'Jujutsu Kaisen', character is by Mangaka, Gege. It was processed into ascii art via https://www.asciiart.eu/image-to-ascii
 line = line_file.read()
 bar_file = open("aesthetics/bars.txt")
 bar = bar_file.read()
 
 # Opening the bmp image files
-with open("gojo.bmp", "rb") as gojo_bmp_file: #Reading the original image. This image of Gojo is from MAPPA Studio, character is by Mangaka, Gege.
+with open("gojo.bmp", "rb") as gojo_bmp_file: #Reading the original image. This bmp image of Gojo is from MAPPA Studio's anime 'Jujutsu Kaisen', character is by Mangaka, Gege.
     gojo_bmp = gojo_bmp_file.read() #It reads the bmp globally
 
 with open("encryptedgojo.bmp", "rb") as gojo_encrypted_bmp: #For the encrypted image
@@ -33,7 +33,7 @@ def encrypter():
     
     metadata = gojo_bmp[:54] #We want to save the metadata so that it saves the bmp file properly
     data = gojo_bmp[54:] #We want to split it so that data can be encrypted without complications
-    byte_array_data = bytearray(data) #We use bytearray so it formats into data[X][Y][ColorPixel]
+    byte_array_data = bytearray(data) #We use bytearray so it formats into data[X][Y][ColorPixel] documentation for this code is from https://www.programiz.com/python-programming/methods/built-in/bytearray
 
     for num in range(num_of_messages): #This function ensures that the amount of message encrypted is appropriate
         message = input("| enter message " + str(num + 1) + " :")
@@ -47,7 +47,7 @@ def encrypter():
         message_length = len(message) #First we remember the length of our message for later
 
         message_in_binary = ''.join(format(ord(l), '08b') for l in message) #We turn the letters 'l' within the message into 08b format as 1 letter = 8 bits = 1 byte
-
+        #Format for this code is from https://stackoverflow.com/questions/7396849/convert-binary-to-ascii-and-vice-versa
 
         for bit in message_in_binary: #For every bit inside the message
             green_index = index * 3 + 1 # We skip to green. 3 serves as an offset
@@ -81,7 +81,7 @@ def decrypter(message_length_input_list, num_of_messages):
     print("| You have " + str(num_of_messages) + " messages to decrypt.")
     amt_decrypt = int(input("How many messages would you like to decrypt?: "))
     if amt_decrypt > int(num_of_messages):
-        print("|ERROR! Please enter a number less than " + str(num_of_messages)) #Error in case someone enters more than the maximum messages from the encryption
+        print("| ERROR! Please enter a number less than " + str(num_of_messages)) #Error in case someone enters more than the maximum messages from the encryption
         return 
     
     decrypted_message_list = []
@@ -100,7 +100,7 @@ def decrypter(message_length_input_list, num_of_messages):
 
         for _ in range(message_length * 8):
             green_index = index * 3 + 1 # skip to green
-            bit = byte_array_data[green_index] &1 #Isolate the LSB of the byte
+            bit = byte_array_data[green_index] &1 #Isolate the LSB of the byte using bitwise AND
             decrypted_message_bin += str(bit) #Add the bit onto the message string
             index += 1
     
@@ -109,7 +109,7 @@ def decrypter(message_length_input_list, num_of_messages):
         message = ""
         for c in range(0, len(decrypted_message_bin), 8):
             byte = decrypted_message_bin[c :c+8] #Using base2 binary, we sort the binary numbers into 8 bits so that it can be converted into a character
-            message += chr(int(byte, 2))
+            message += chr(int(byte, 2)) #I got the idea from https://www.geeksforgeeks.org/python-program-to-convert-binary-to-ascii/
 
         decrypted_message_list.append(message)
 
