@@ -20,7 +20,7 @@ with open("encryptedgojo.bmp", "rb") as gojo_encrypted_bmp: #For the encrypted i
     gojo_encrypted_bmp = gojo_encrypted_bmp.read() #It reads the bmp globally
 
 
-def encrypter():
+def encrypter(): #encrypts the message by encoding on green pixels
     #Formatting the cool aesthetics below
     print(encrypter_aesthetics)
 
@@ -75,7 +75,7 @@ def encrypter():
     return message_length_list #Return the message length so that it remembers how to decrypt the message properly 
     
 
-def decrypter(message_length_input_list, num_of_messages):
+def decrypter(message_length_input_list, num_of_messages): #decrypts message from green pixels
     print("| You have " + str(num_of_messages) + " messages to decrypt.")
     amt_decrypt = int(input("| How many messages would you like to decrypt?: "))
     if amt_decrypt > int(num_of_messages):
